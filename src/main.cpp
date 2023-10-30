@@ -22,10 +22,11 @@
 uint32_t counttt = 0;
 
 void setup() {
-  Serial.begin(9600);
-  Serial2.begin(9600);
+  Serial.begin(115200);
+  Serial2.begin(115200);
   pinMode(25, OUTPUT);
   pinMode(26, OUTPUT);
+  OTA_Setup();
 #if TEST_MODBUS
   MB_Slave_Setup();
 #endif
@@ -42,9 +43,10 @@ void setup() {
   TM_Config();
 #endif
 #if TEST_SIM800L
-  delay(3000);
-  TS_Check();
+  delay(5000);
+  TS_Setup();
 #endif
+  
 }
 
 void loop() {
@@ -65,17 +67,15 @@ void loop() {
   TM_Run();
 #endif
 #if TEST_SIM800L
-  // TS_Update();
+  TS_Read_SMS();
 #endif
-  Message_Receive();
-
   // counttt++;
   // if(counttt == 10000)
   // {
   //   TS_Send_SMS();
   //   counttt = 0;
   // }
-
+  OTA_update();
   delay(1);
 }
 

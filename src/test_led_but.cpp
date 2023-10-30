@@ -42,7 +42,7 @@ void TLB_Button(void)
         {
             led2_state = !led2_state;
             digitalWrite(LED2, led2_state);
-            TS_Send_SMS();
+            // TS_Send_SMS();
         }
     }
     else

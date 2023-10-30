@@ -9,4 +9,5 @@
 #include "test_led_but.h"
 #include "test_max6369.h"
 #include "test_sim800l.h"
+#include "OTA.h"
 #endif

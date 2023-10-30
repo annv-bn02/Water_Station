@@ -24,8 +24,8 @@ void TM_Run(void)
      
      switch (cases){
       case 0:
-           time_led_xanh_on = 10000;
-           time_led_xanh_off = 10000 ;                   
+           time_led_xanh_on = 1000;
+           time_led_xanh_off = 1000 ;                   
            break;
       case 1:
            time_led_xanh_on = 35000;
