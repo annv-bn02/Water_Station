@@ -1,10 +1,10 @@
 #include "my_modbus.h"
 
+#define DEBUG_MODBUS 0
+
 ModbusRTU mb;
 uint16_t arr[100];
-
-char phone[11] = "0987654321";
-uint8_t button_data[100];
+uint8_t button_data[100], ai_read_ping_status_flag = 0, ai_read_config_para_flag = 0, ai_read_get_status_flag = 0;
 float sensor_data[100];
 
 static void MB_Slave_Debug_Data(uint8_t *data, uint16_t length);
@@ -31,10 +31,10 @@ void MB_Slave_Run(void)
   MB_Slave_Write_Sensor(sensor_data);
   MB_Slave_Write_Button_Change(1);
   MB_Slave_Write_Button_State(button_data);
+  MB_Slave_Write_Status(TS_Status());
   MB_Slave_Write_Calib_Parameters(4.5, 5.5, 6.5);
-  MB_Slave_Write_Get_Status(1, phone);
-  MB_Slave_Write_Ping_Status(1, phone);
-  MB_Slave_Write_Status(1);
+  MB_Slave_Write_Get_Status(TS_Status(), module_sim_number);
+  MB_Slave_Write_Ping_Status(TS_Ping_Status(), phone_numner_sender);
   MB_Slave_Write_Request_Config(1);
   mb.task();
   yield();
@@ -50,6 +50,7 @@ void MB_Slave_Setup(void)
   //Config RS485 Control
   pinMode(RS485_TE, OUTPUT);
   pinMode(RS485_RE, OUTPUT);
+  MB_Slave_RS485_Read();
 
 }
 
@@ -133,8 +134,10 @@ void MB_Slave_Write_Request_Config(uint16_t data)
 void MB_Slave_Read_Led_Logic(uint8_t *data)
 {
   uint8_t led_number = data[3], value = data[4];
+#if DEBUG_MODBUS
   Serial.println("Led number: " + String(led_number));
   Serial.println("Value: " + String(value));
+#endif
 }
 
 void MB_Slave_Read_Led_Blink(uint8_t *data)
@@ -162,7 +165,9 @@ void MB_Slave_Read_Led_Blink(uint8_t *data)
         break;
     }
   }
+#if DEBUG_MODBUS
   Serial.println("Led blink Led Number: " + String(led_number) + " " + "Time on: " + String(time_on) + " " +  "Time off: " + String(time_off));
+#endif
 }
 void MB_Slave_Read_Ping_Response(uint8_t *data)
 {
@@ -194,12 +199,15 @@ void MB_Slave_Read_Ping_Response(uint8_t *data)
         break;
     }
   }
+  // TS_Send_SMS(String(phone_number), String(ping_response_data));
+#if DEBUG_MODBUS
   Serial.print("Ping Resonse Phone Number: ");
   MB_Slave_Debug_Data(phone_number, 10);
   Serial.println();
   Serial.print("Ping Resonse Data: ");
   MB_Slave_Debug_Data(ping_response_data, 60);
   Serial.println();
+#endif
 }
 void MB_Slave_Read_Update_Frequence(uint8_t *data)
 {
@@ -211,7 +219,9 @@ void MB_Slave_Read_Update_Frequence(uint8_t *data)
     frequen_arr[temp_position++] = data[i];
   }
   frequency = Convert_From_Bytes_To_Int(frequen_arr[0], frequen_arr[1], frequen_arr[2], frequen_arr[3]);
+#if DEBUG_MODBUS 
   Serial.println("Config frequency:" + String(frequency));
+#endif
 }
 void MB_Slave_Read_Response_Status(uint8_t *data)
 {
@@ -333,6 +343,7 @@ void MB_Slave_Read_Response_Status(uint8_t *data)
         break;
     }
   }
+#if DEBUG_MODBUS
   Serial.print("Resonse Status Phone Number: ");
   MB_Slave_Debug_Data(phone_number, 10);
   Serial.println();
@@ -351,6 +362,7 @@ void MB_Slave_Read_Response_Status(uint8_t *data)
   Serial.println("Resonse Status Success MQTT Time: " + String(success_mqtt_time));
   Serial.println("Resonse Status Reset Time: " + String(reset_time));
   Serial.println("Resonse Status Mqtt State: " + String(mqtt_state));
+#endif
 }
 void MB_Slave_Read_Config_Location(uint8_t *data)
 {
@@ -382,12 +394,14 @@ void MB_Slave_Read_Config_Location(uint8_t *data)
         break;
     }
   }
+#if DEBUG_MODBUS
   Serial.print("Config Location Longitude: ");
   MB_Slave_Debug_Data(longitude, 4);
   Serial.println();
   Serial.print("Config Location Latitude: ");
   MB_Slave_Debug_Data(latitude, 4);
   Serial.println();
+#endif
 }
 
 void MB_Slave_Read_Config_MQTT_Server(uint8_t *data)
@@ -456,6 +470,7 @@ void MB_Slave_Read_Config_MQTT_Server(uint8_t *data)
         break;
     }
   }
+#if DEBUG_MODBUS
   Serial.print("Config MQTT Sever Address: ");
   MB_Slave_Debug_Data_Char(mqtt_address, 20);
   Serial.println();
@@ -473,6 +488,7 @@ void MB_Slave_Read_Config_MQTT_Server(uint8_t *data)
   Serial.print("Config MQTT Send Data: ");
   MB_Slave_Debug_Data_Char(send_data, 20);
   Serial.println();
+#endif
 }
 
 //USED in ModbusRTU.cpp in modbus-esp8266 library
@@ -486,6 +502,29 @@ void MB_Slave_Filter_Read_Message(uint8_t *data)
       break;
     case 0x10:
       MB_Slave_Filter_Read_Multi_Register(data);
+      break;
+    case 0x03:
+      if(Convert_From_Bytes_To_Uint16(data[2], data[1]) == 0x002a)
+      {
+        ai_read_ping_status_flag = 1;
+#if DEBUG_WEB
+        WebSerial.println("AI read ping status");
+#endif
+      }
+      else if(Convert_From_Bytes_To_Uint16(data[2], data[1]) == 0x0030)
+      {
+        ai_read_config_para_flag = 1;
+#if DEBUG_WEB
+        WebSerial.println("AI read config parameters");
+#endif
+      }
+      else if(Convert_From_Bytes_To_Uint16(data[2], data[1]) == 0x0036)
+      {
+        ai_read_get_status_flag = 1;
+#if DEBUG_WEB
+        WebSerial.println("AI read get status");
+#endif
+      }
       break;
     default:
       break;
@@ -516,6 +555,45 @@ void MB_Slave_Filter_Read_Multi_Register(uint8_t *data)
     break;
   default:
     break;
+  }
+}
+
+uint8_t MB_AI_Read_Ping_Status()
+{
+  if(ai_read_ping_status_flag == 1)
+  {
+    ai_read_ping_status_flag = 0;
+    return 1;
+  }
+  else
+  {
+    return 0;
+  }
+}
+
+uint8_t MB_AI_Read_Config_Para()
+{
+  if(ai_read_config_para_flag == 1)
+  {
+    ai_read_config_para_flag = 0;
+    return 1;
+  }
+  else
+  {
+    return 0;
+  }
+}
+
+uint8_t MB_AI_Read_Get_Status()
+{
+  if(ai_read_get_status_flag == 1)
+  {
+    ai_read_get_status_flag = 0;
+    return 1;
+  }
+  else
+  {
+    return 0;
   }
 }
 
