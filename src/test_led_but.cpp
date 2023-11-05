@@ -1,6 +1,11 @@
 #include "test_led_but.h"
 uint8_t but1_old = 0, but1_new = 0, but2_old = 0, but2_new = 0, led1_state = LOW, led2_state = LOW, led3_state = LOW;
 uint32_t count = 0;
+
+/**
+ * @brief Config for LED and BUTTON
+ * 
+ */
 void TLB_Config(void)
 {
     pinMode(LED1, OUTPUT);
@@ -13,6 +18,10 @@ void TLB_Config(void)
     pinMode(BUT2, INPUT_PULLUP);
 }
 
+/**
+ * @brief Test all LED
+ * 
+ */
 void TLB_Blink(void)
 {
     digitalWrite(LED1, HIGH);
@@ -29,6 +38,10 @@ void TLB_Blink(void)
     delay(500);
 }
 
+/**
+ * @brief Test button
+ * Button 1 can send SMS test when change state
+ */
 void TLB_Button(void)
 {
     count++;

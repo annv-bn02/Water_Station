@@ -5,13 +5,15 @@ String phone_number = "1";
 char module_sim_number[11] = "0966874225";
 char phone_numner_sender[11];
 uint8_t have_message = 0, have_config_para = 0, have_get_status = 0, have_ping_status = 0;
+
+/**
+ * @brief Checking the state of SIM800L and Setup for receive messgages 
+ * 
+ */
 void TS_Setup()
 {
   pinMode(22, OUTPUT);
   digitalWrite(22, HIGH);
-  // delay(10000);
-  // digitalWrite(25, HIGH);
-  // digitalWrite(26, HIGH); 
   message_receive = "Setup";
   phone_number = "0";
   TS_Update();
@@ -27,10 +29,14 @@ void TS_Setup()
   TS_Update();
   Serial.println("AT+CBC\r\n");
   TS_Update();
-  // TS_Send_SMS();
   TS_Setup_ReadSMS();
   TS_Update();
 }
+
+/**
+ * @brief Update information about the SIM800l respond
+ * 
+ */
 void TS_Update()
 {
   delay(100);
@@ -39,14 +45,23 @@ void TS_Update()
   // {
   //   Serial.write(Serial2.read());//Forward what Serial2 received to Software Serial2 Port
   // }
+
+  //reading reponse from SIM800l for debuging
   while (Serial.available())
   {
-    tmp = Serial.readStringUntil('\n');//Forward what Software Serial2 received to Serial2 Port
+    tmp = Serial.readStringUntil('\n');
   }
 #if DEBUG_WEB
   WebSerial.println(tmp);
 #endif
 }
+
+/**
+ * @brief Send a message from SIM800L to the specified
+ * 
+ * @param number_receiver : the phone number receiver message
+ * @param data : the message to send
+ */
 void TS_Send_SMS(String number_receiver, String data)
 {
   number_receiver = number_receiver.substring(1);
@@ -63,6 +78,10 @@ void TS_Send_SMS(String number_receiver, String data)
 #endif
 }
 
+/**
+ * @brief Setup for receive message
+ * 
+ */
 void TS_Setup_ReadSMS(void)
 {
   Serial.print("AT+IPR=115200\r\n");       // Cau hinh Baud Rate
@@ -75,6 +94,11 @@ void TS_Setup_ReadSMS(void)
   // TS_Update();
 }
 
+/**
+ * @brief Read incoming SMS messages
+ * Custom function for handling incoming messages to SIM800L
+ * @return uint8_t : nothing until incoming code version
+ */
 uint8_t TS_Read_SMS(void)
 {
   while (Serial.available())
@@ -111,6 +135,11 @@ uint8_t TS_Read_SMS(void)
   return 1;
 }
 
+/**
+ * @brief Checking the status about the message received or ping status
+ * 
+ * @return uint8_t : 1 if have message received or ping status, 0 otherwise
+ */
 uint8_t TS_Status(void)
 {
   TS_Check_All_Flag();
@@ -124,6 +153,11 @@ uint8_t TS_Status(void)
   }
 }
 
+/**
+ * @brief Checking for ping status
+ * 
+ * @return uint8_t : 1 if have ping status, 0 otherwise
+ */
 uint8_t TS_Ping_Status(void)
 {
   TS_Check_All_Flag();
@@ -142,6 +176,10 @@ uint8_t TS_Ping_Status(void)
   }
 }
 
+/**
+ * @brief Check all status for knowing state of Status 
+ * 
+ */
 void TS_Check_All_Flag(void)
 {
   if(MB_AI_Read_Ping_Status() == 1)

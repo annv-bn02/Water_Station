@@ -10,6 +10,10 @@ float sensor_data[100];
 static void MB_Slave_Debug_Data(uint8_t *data, uint16_t length);
 static void MB_Slave_Debug_Data_Char(char *data, uint16_t length);
 
+/**
+ * @brief Push new data to the register for readponse when Master reads data
+ * 
+ */
 void MB_Slave_Run(void)
 {
   sensor_data[0] = TA_Sensor_Data();
@@ -40,6 +44,10 @@ void MB_Slave_Run(void)
   yield();
 }
 
+/**
+ * @brief Setup for Modbus connection
+ * Setup for using module RS485 for Modbus communication
+ */
 void MB_Slave_Setup(void)
 {
   Serial2.begin(9600);
@@ -54,6 +62,10 @@ void MB_Slave_Setup(void)
 
 }
 
+/**
+ * @brief example for read data from a register
+ * @param reg_address : register address to be readed
+ */
 uint16_t MB_Slave_Read_Register(uint16_t reg_address)
 {
   uint16_t  temp;
@@ -61,6 +73,13 @@ uint16_t MB_Slave_Read_Register(uint16_t reg_address)
   return temp;
 }
 
+/**
+ * @brief example for write data to a register
+ * 
+ * @param array : array data to be written
+ * @param length : length of the array
+ * @param reg_offset : start address of the registers to be written
+ */
 void MB_Slave_Write_Register(uint16_t * array, uint16_t length, uint16_t reg_offset)
 {
   for(int i = 0; i < length; i++)
@@ -69,6 +88,11 @@ void MB_Slave_Write_Register(uint16_t * array, uint16_t length, uint16_t reg_off
   }
 }
 
+/**
+ * @brief Write sensors data to the register for Master read
+ * Data start write from SENSOR_DATA_START_REGISTER
+ * @param data : array of sensors data
+ */
 void MB_Slave_Write_Sensor(float *data)
 {
   for(int i = 0; i < SENSOR_NUMBER; i++)
@@ -79,6 +103,11 @@ void MB_Slave_Write_Sensor(float *data)
   }
 }
 
+/**
+ * @brief Write buttons data to the register for Master read
+ * Data start write from BUTTON_DATA_START_REGISTER
+ * @param data : array of buttons data
+ */
 void MB_Slave_Write_Button_State(uint8_t *data)
 {
   for(int i = 0; i < BUTTON_NUMBER; i += 2)
@@ -88,16 +117,32 @@ void MB_Slave_Write_Button_State(uint8_t *data)
   }
 }
 
+/**
+ * @brief Writes the information about the change of button state for Master read
+ * Data start write from BUTTON_CHANGE_START_REGISTER
+ * @param data : the change of button state
+ */
 void MB_Slave_Write_Button_Change(uint16_t data)
 {
   mb.Hreg(BUTTON_CHANGE_START_REGISTER, data);
 }
 
+/**
+ * @brief Write the status about have message or ping status for Master read
+ * Data start write from STATUS_START_REGISTER
+ * @param data : status
+ */
 void MB_Slave_Write_Status(uint16_t data)
 {
   mb.Hreg(STATUS_START_REGISTER, data);
 }
 
+/**
+ * @brief Write about ping status to the SIM800L for Master read
+ * Data start write from PING_STATUS_START_REGISTER
+ * @param data : ping status
+ * @param phone_number : phone number send ping status message
+ */
 void MB_Slave_Write_Ping_Status(uint16_t data, String phone_number)
 {
   mb.Hreg(PING_STATUS_START_REGISTER, data);
@@ -108,6 +153,13 @@ void MB_Slave_Write_Ping_Status(uint16_t data, String phone_number)
   }
 }
 
+/**
+ * @brief Write calib parameters for Master read
+ * Data start write from CALIB_PARAMETERS_START_REGISTER
+ * @param a : first parameter
+ * @param b : second parameter
+ * @param c : third parameter
+ */
 void MB_Slave_Write_Calib_Parameters(float a, float b, float c)
 {
   uint16_t *temp_data1 = Convert_From_Float_To_Uint16(a);
@@ -121,16 +173,32 @@ void MB_Slave_Write_Calib_Parameters(float a, float b, float c)
   mb.Hreg(CALIB_PARAMETERS_START_REGISTER + 5, temp_data3[1]);
 }
 
+/**
+ * @brief Write the 
+ * Data start write from GET_STATUS_START_REGISTER
+ * @param data 
+ * @param phone_number 
+ */
 void MB_Slave_Write_Get_Status(uint16_t data, String phone_number)
 {
   mb.Hreg(GET_STATUS_START_REGISTER, data);
 }
 
+/**
+ * @brief Write the status about the request config for Master read
+ * Data start write from REQUEST_CONFIG_START_REGISTER
+ * @param data 
+ */
 void MB_Slave_Write_Request_Config(uint16_t data)
 {
   mb.Hreg(REQUEST_CONFIG_START_REGISTER, data);
 }
 
+/**
+ * @brief Read led logic when Master write
+ * 
+ * @param data : data array cutting from Master write message buffer
+ */
 void MB_Slave_Read_Led_Logic(uint8_t *data)
 {
   uint8_t led_number = data[3], value = data[4];
@@ -140,6 +208,11 @@ void MB_Slave_Read_Led_Logic(uint8_t *data)
 #endif
 }
 
+/**
+ * @brief Read led link when Master write
+ * Data about led_number and time on/off led;
+ * @param data : data array cutting from Master write message buffer
+ */
 void MB_Slave_Read_Led_Blink(uint8_t *data)
 {
   led_blink_message_e message_state;
@@ -169,6 +242,12 @@ void MB_Slave_Read_Led_Blink(uint8_t *data)
   Serial.println("Led blink Led Number: " + String(led_number) + " " + "Time on: " + String(time_on) + " " +  "Time off: " + String(time_off));
 #endif
 }
+
+/**
+ * @brief Read ping response when Master write and send it from SIM800L
+ * Data about phone number receive ping reponse and data of message;
+ * @param data : data array cutting from Master write message buffer
+ */
 void MB_Slave_Read_Ping_Response(uint8_t *data)
 {
   ping_respone_message_e message_state;
@@ -209,6 +288,12 @@ void MB_Slave_Read_Ping_Response(uint8_t *data)
   Serial.println();
 #endif
 }
+
+/**
+ * @brief Read update frequence when Master write
+ * Data about frequence update data 
+ * @param data : data array cutting from Master write message buffer
+ */
 void MB_Slave_Read_Update_Frequence(uint8_t *data)
 {
   uint16_t number_byte = data[DEFAULT_NUMBER_DATA], temp_position = 0;
@@ -223,6 +308,13 @@ void MB_Slave_Read_Update_Frequence(uint8_t *data)
   Serial.println("Config frequency:" + String(frequency));
 #endif
 }
+
+/**
+ * @brief Read response status when Master write
+ * Data about location, phone number, mac_address, pin current rate, sim current state, time board reset, mqtt state,
+ time disconnect mqtt server, number of successful mqtt messages, succcessful mqtt messages, ping time, sensor current value
+ * @param data : data array cutting from Master write message buffer
+ */
 void MB_Slave_Read_Response_Status(uint8_t *data)
 {
   respone_status_message_e message_state;
@@ -364,6 +456,11 @@ void MB_Slave_Read_Response_Status(uint8_t *data)
   Serial.println("Resonse Status Mqtt State: " + String(mqtt_state));
 #endif
 }
+/**
+ * @brief Read update frequence when Master write
+ * Data about location for configuration
+ * @param data : data array cutting from Master write message buffer
+ */
 void MB_Slave_Read_Config_Location(uint8_t *data)
 {
   config_location_message_e message_state;
@@ -404,6 +501,11 @@ void MB_Slave_Read_Config_Location(uint8_t *data)
 #endif
 }
 
+/**
+ * @brief Read update frequence when Master write
+ * Data about configuration mqtt server about mqtt address, mqtt port, user and password of mqtt, data received from mqtt, data send to mqtt
+ * @param data : data array cutting from Master write message buffer
+ */
 void MB_Slave_Read_Config_MQTT_Server(uint8_t *data)
 {
   config_mqtt_message_e message_state;
@@ -491,7 +593,11 @@ void MB_Slave_Read_Config_MQTT_Server(uint8_t *data)
 #endif
 }
 
-//USED in ModbusRTU.cpp in modbus-esp8266 library
+/**
+ * @brief Function custom for reading message Master write
+ * USED in ModbusRTU.cpp in modbus-esp8266 library
+ * @param data : message data Master write
+ */
 void MB_Slave_Filter_Read_Message(uint8_t *data)
 {
   uint8_t function = data[0];
@@ -530,6 +636,12 @@ void MB_Slave_Filter_Read_Message(uint8_t *data)
       break;
   }
 }
+
+/**
+ * @brief Function for directing processing incoming message Mater write
+ * 
+ * @param data : data Master Write
+ */
 void MB_Slave_Filter_Read_Multi_Register(uint8_t *data)
 {
   uint16_t start_address = Convert_From_Bytes_To_Uint16(data[2], data[1]);
@@ -558,6 +670,11 @@ void MB_Slave_Filter_Read_Multi_Register(uint8_t *data)
   }
 }
 
+/**
+ * @brief Checking about status of Master(AI7688) read data Ping Status  
+ * 
+ * @return uint8_t : 1 if AI readed, 0 otherwise
+ */
 uint8_t MB_AI_Read_Ping_Status()
 {
   if(ai_read_ping_status_flag == 1)
@@ -571,6 +688,11 @@ uint8_t MB_AI_Read_Ping_Status()
   }
 }
 
+/**
+ * @brief Checking about status of Master(AI7688) read data about config paparameters.  
+ * 
+ * @return uint8_t : 1 if AI readed, 0 otherwise
+ */
 uint8_t MB_AI_Read_Config_Para()
 {
   if(ai_read_config_para_flag == 1)
@@ -584,6 +706,11 @@ uint8_t MB_AI_Read_Config_Para()
   }
 }
 
+/**
+ * @brief Checking about status of Master(AI7688) read data about get status.  
+ * 
+ * @return uint8_t : 1 if AI readed, 0 otherwise
+ */
 uint8_t MB_AI_Read_Get_Status()
 {
   if(ai_read_get_status_flag == 1)
@@ -597,18 +724,32 @@ uint8_t MB_AI_Read_Get_Status()
   }
 }
 
+/**
+ * @brief Set up for writing data to the RS485
+ * 
+ */
 void MB_Slave_RS485_Write(void)
 {
   digitalWrite(RS485_TE, HIGH);
   digitalWrite(RS485_RE, HIGH);
 }
 
+/**
+ * @brief Set up for reading data to the RS485
+ * 
+ */
 void MB_Slave_RS485_Read(void)
 {
   digitalWrite(RS485_TE, LOW);
   digitalWrite(RS485_RE, LOW);
 }
 
+/**
+ * @brief Custom function for debuging data
+ * 
+ * @param data : array of bytes
+ * @param length : length of array
+ */
 void MB_Slave_Debug_Data(uint8_t *data, uint16_t length)
 {
   for(uint16_t i = 0; i < length; i++)
@@ -617,6 +758,12 @@ void MB_Slave_Debug_Data(uint8_t *data, uint16_t length)
   }
 }
 
+/**
+ * @brief Custom function for debuging data
+ * 
+ * @param data : array of character data
+ * @param length : length of array
+ */
 void MB_Slave_Debug_Data_Char(char *data, uint16_t length)
 {
   for(uint16_t i = 0; i < length; i++)

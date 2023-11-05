@@ -11,7 +11,6 @@ void setup() {
   Serial2.begin(9600);
 #if DEBUG_WEB
   WD_Setup();
-  WD_update();
 #endif
 #if TEST_MODBUS
   MB_Slave_Setup();
@@ -56,10 +55,6 @@ void loop() {
 #endif
 #if TEST_SIM800L
   TS_Read_SMS();
-#endif
-#if DEBUG_WEB
-  WD_update();
-  WD_State();
 #endif
 
   delay(1);
