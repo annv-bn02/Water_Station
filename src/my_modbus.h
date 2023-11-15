@@ -93,6 +93,11 @@ void MB_Slave_Read_Update_Frequence(uint8_t *data);
 void MB_Slave_Read_Response_Status(uint8_t *data);
 void MB_Slave_Read_Config_Location(uint8_t *data);
 void MB_Slave_Read_Config_MQTT_Server(uint8_t *data);
+
+uint8_t MB_AI_Read_Ping_Status(void);
+uint8_t MB_AI_Read_Config_Para(void);
+uint8_t MB_AI_Read_Get_Status(void);
+
 //USED in ModbusRTU.cpp in modbus-esp8266 library
 void MB_Slave_Filter_Read_Message(uint8_t *data);
 void MB_Slave_Filter_Read_Multi_Register(uint8_t *data);

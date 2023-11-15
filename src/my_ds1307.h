@@ -3,6 +3,7 @@
 
 #include "all_header.h"
 extern uint8_t md_time[7];
+extern String ds1307;
 void MD_Config(void);
 void MD_Run(void);
 

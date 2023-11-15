@@ -3,16 +3,7 @@ uint32_t time_led_xanh_on, time_led_xanh_off, time2;
 uint8_t LEDState, cases = 0;
 void TM_Config(void)
 {
-    Serial2.begin(9600);
     pinMode(LED1  , OUTPUT);
-    digitalWrite(25, HIGH);
-    digitalWrite(26, HIGH); 
-    Serial2.println("Test1");
-    delay(10);
-    Serial2.println("Test2");
-    delay(10);
-    digitalWrite(25, LOW);
-    digitalWrite(26, LOW); 
 }
 
 void TM_Run(void)

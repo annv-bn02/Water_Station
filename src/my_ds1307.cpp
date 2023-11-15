@@ -12,12 +12,13 @@ byte error, address;
 int nDevices, count_rtc = 0;
 char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 uint8_t md_time[7];
+String ds1307;
 void MD_Scan_I2C_Address(void);
 void MD_Config(void)
 {
    
     // Serial.begin(9600);
-    if (! I2C_DS1307.begin(I2C_SDA, I2C_SCL, 100000)) {
+    if (! I2C_DS1307.begin(I2C_SDA, I2C_SCL, 100000ul)) {
         // Serial.println("Couldn't init I2C Pins");
         // Serial.flush();
         while (1) delay(10);
@@ -39,12 +40,13 @@ void MD_Config(void)
         rtc.adjust(DateTime(2023, 10, 9, 21, 40, 50));
     }
 #endif
+    count_rtc = millis();
 }
 
 void MD_Run(void)
 {
-    count_rtc++;
-    if(count_rtc == 1000)
+    // count_rtc++;
+    if(millis() > count_rtc + 5000)
     {
 #ifdef SCAN_I2C
         MD_Scan_I2C_Address();
@@ -65,15 +67,31 @@ void MD_Run(void)
         // Serial.print(':');
         // Serial.print(now.second(), DEC);
         // Serial.println();
+        ds1307 = "";
         uint8_t *temp_data = Convert_From_Uint16_To_Bytes(now.year());
         md_time[0] = temp_data[0];
-        md_time[1] = temp_data[1];
+        md_time[1] = temp_data[1];    
         md_time[2] = now.month();
         md_time[3] = now.day();
         md_time[4] = now.hour();
         md_time[5] = now.minute();
         md_time[6] = now.second();
+        ds1307 += String(now.year()) + "/";
+        if(now.month() < 10) ds1307 += "0";
+        ds1307 += String(now.month()) + "/";
+        if(now.day() < 10) ds1307 += "0";
+        ds1307 += String(now.day()) + "; ";
+        if(now.hour() < 10) ds1307 += "0";
+        ds1307 += String(now.hour()) + ":";
+        if(now.minute() < 10) ds1307 += "0";
+        ds1307 += String(now.minute()) + ":";
+        if(now.second() < 10) ds1307 += "0";
+        ds1307 += String(now.second());
 #endif
+#if DEBUG_WEB
+        WebSerial.println(ds1307);
+#endif
+        count_rtc = millis();
     }
 }
 
