@@ -1,5 +1,5 @@
-#ifndef _MY_OTA_
-#define _MY_OTA_
+#ifndef _MY_OSensor_
+#define _MY_OSensor_
 
 #include "all_header.h"
 #include <WiFi.h>

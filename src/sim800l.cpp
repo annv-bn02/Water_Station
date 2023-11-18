@@ -1,4 +1,4 @@
-#include "test_sim800l.h"
+#include "sim800l.h"
 
 String message_receive = "1";
 String phone_number = "1";
@@ -10,7 +10,7 @@ uint8_t have_message = 0, have_config_para = 0, have_get_status = 0, have_ping_s
  * @brief Checking the state of SIM800L and Setup for receive messgages 
  * 
  */
-void TS_Setup()
+void Sim800L_Setup()
 {
   pinMode(22, OUTPUT);
   digitalWrite(22, HIGH);
@@ -20,28 +20,28 @@ void TS_Setup()
   WebSerial.println("Start setup SIM800L");
   delay(1000);
 #endif
-  TS_Update();
+  Sim800L_Update();
   Serial.println("AT\r\n");
-  TS_Update();
+  Sim800L_Update();
   Serial.println("AT+CSQ\r\n");
-  TS_Update();
+  Sim800L_Update();
   Serial.println("AT+CCID\r\n");
-  TS_Update();
+  Sim800L_Update();
   Serial.println("AT+CREG?\r\n");
-  TS_Update();
+  Sim800L_Update();
   Serial.println("ATI\r\n");
-  TS_Update();
+  Sim800L_Update();
   Serial.println("AT+CBC\r\n");
-  TS_Update();
-  TS_Setup_ReadSMS();
-  TS_Update();
+  Sim800L_Update();
+  Sim800L_Setup_ReadSMS();
+  Sim800L_Update();
 }
 
 /**
  * @brief Update information about the SIM800l respond
  * 
  */
-void TS_Update()
+void Sim800L_Update()
 {
   delay(300);
   String tmp;
@@ -66,15 +66,15 @@ void TS_Update()
  * @param number_receiver : the phone number receiver message
  * @param data : the message to send
  */
-void TS_Send_SMS(String number_receiver, String data)
+void Sim800L_Send_SMS(String number_receiver, String data)
 {
   number_receiver = number_receiver.substring(1);
   Serial.println("AT+CMGF=1"); // Configuring TEXT mode
-  TS_Update();
+  Sim800L_Update();
   Serial.println("AT+CMGS=\"+84" + number_receiver + "\"");//947069655
-  TS_Update();
+  Sim800L_Update();
   Serial.print(data); //text content
-  TS_Update();
+  Sim800L_Update();
   Serial.write(26);
 #if DEBUG_WEB
   WebSerial.println("Send SMS from module sim number: " + String(module_sim_number) + " to: " + number_receiver);
@@ -86,16 +86,16 @@ void TS_Send_SMS(String number_receiver, String data)
  * @brief Setup for receive message
  * 
  */
-void TS_Setup_ReadSMS(void)
+void Sim800L_Setup_ReadSMS(void)
 {
   Serial.print("AT+IPR=115200\r\n");       // Cau hinh Baud Rate
-  TS_Update();
+  Sim800L_Update();
   Serial.println("AT+CMGF=1"); // Configuring TEXT mode
-  TS_Update();
+  Sim800L_Update();
   Serial.println("AT+CNMI=1,2,0,0,0"); // Decides how newly arrived SMS messages should be handled
-  TS_Update();
+  Sim800L_Update();
   Serial.print("AT&W\r\n");                // Luu cau hinh
-  TS_Update();
+  Sim800L_Update();
 }
 
 /**
@@ -103,7 +103,7 @@ void TS_Setup_ReadSMS(void)
  * Custom function for handling incoming messages to SIM800L
  * @return uint8_t : nothing until incoming code version
  */
-uint8_t TS_Read_SMS(void)
+uint8_t Sim800L_Read_SMS(void)
 {
   while (Serial.available())
   {
@@ -146,9 +146,9 @@ uint8_t TS_Read_SMS(void)
  * 
  * @return uint8_t : 1 if have message received or ping status, 0 otherwise
  */
-uint8_t TS_Status(void)
+uint8_t Sim800L_Status(void)
 {
-  TS_Check_All_Flag();
+  Sim800L_Check_All_Flag();
   if(have_message == 1)
   {
     return 1;
@@ -164,9 +164,9 @@ uint8_t TS_Status(void)
  * 
  * @return uint8_t : 1 if have ping status, 0 otherwise
  */
-uint8_t TS_Ping_Status(void)
+uint8_t Sim800L_Ping_Status(void)
 {
-  TS_Check_All_Flag();
+  Sim800L_Check_All_Flag();
   if(have_ping_status == 1)
   {
     phone_number.toCharArray(phone_numner_sender, 11);
@@ -186,7 +186,7 @@ uint8_t TS_Ping_Status(void)
  * @brief Check all status for knowing state of Status 
  * 
  */
-void TS_Check_All_Flag(void)
+void Sim800L_Check_All_Flag(void)
 {
   if(MB_AI_Read_Ping_Status() == 1)
   {

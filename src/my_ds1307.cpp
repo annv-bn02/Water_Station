@@ -137,3 +137,16 @@ void MD_Scan_I2C_Address(void)
         Serial.println("done\n");
     }
 }
+
+void MD_Setup_Time(String time)
+{
+    int year, mon, day, hour, min, sec;
+    year = (time.substring(10, 14)).toInt();
+    mon = (time.substring(15, 17)).toInt();
+    day = (time.substring(18, 20)).toInt();
+    hour = (time.substring(21, 23)).toInt();
+    min = (time.substring(24, 26)).toInt();
+    sec = (time.substring(27)).toInt();
+    WebSerial.printf("Setup time: %d %d %d %d %d %d\n", (uint16_t)year, (uint8_t)mon, (uint8_t)day, (uint8_t)hour, (uint8_t)min, (uint8_t)sec);
+    rtc.adjust(DateTime((uint16_t)year, (uint8_t)mon, (uint8_t)day, (uint8_t)hour, (uint8_t)min, (uint8_t)sec));
+}

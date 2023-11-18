@@ -6,5 +6,5 @@ extern uint8_t md_time[8];
 extern String ds1307;
 void MD_Config(void);
 void MD_Run(void);
-
+void MD_Setup_Time(String time);
 #endif

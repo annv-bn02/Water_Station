@@ -132,11 +132,10 @@
  C:/Users/nvan0/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_hw_support/include/soc/esp32/spiram.h \
  C:/Users/nvan0/.platformio/packages/framework-arduinoespressif32/cores/esp32/io_pin_remap.h \
  C:/Users/nvan0/.platformio/packages/framework-arduinoespressif32/cores/esp32/Arduino.h \
- src/convert.h src/test_adc.h src/my_modbus.h \
+ src/convert.h src/sensor.h src/my_modbus.h \
  src/modbus_rtu_library/ModbusRTU.h src/modbus_rtu_library/ModbusAPI.h \
  src/modbus_rtu_library/Modbus.h src/modbus_rtu_library/ModbusSettings.h \
- src/test_led_but.h src/test_max6369.h src/test_sim800l.h \
- src/my_webdebug.h \
+ src/button.h src/max6369.h src/sim800l.h src/my_webdebug.h \
  C:/Users/nvan0/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFi.h \
  C:/Users/nvan0/.platformio/packages/framework-arduinoespressif32/cores/esp32/Print.h \
  C:/Users/nvan0/.platformio/packages/framework-arduinoespressif32/cores/esp32/IPv6Address.h \

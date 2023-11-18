@@ -28,7 +28,12 @@ void WD_Handler(uint8_t *data, size_t len){
   if(Data == "sendsms")
   {
     WebSerial.println("Esp32 send sms");
-    TS_Send_SMS("0989691022", "Test send sms");
+    Sim800L_Send_SMS("0989691022", "Test send sms");
+  }
+  if(Data.substring(0, 9) == "setuptime")
+  {
+    WebSerial.println("Esp32 setup DS1307");
+    MD_Setup_Time(Data);
   }
 }
 

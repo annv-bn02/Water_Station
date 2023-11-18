@@ -1,6 +1,6 @@
 #include "all_header.h"
 #define TEST_MODBUS 1
-#define TEST_LED_BUT 1
+#define TEST_BUTTON 1
 #define TEST_DS1307 1
 #define TEST_ADC 0
 #define TEST_MAX6369 1
@@ -15,21 +15,21 @@ void setup() {
 #if TEST_MODBUS
   MB_Slave_Setup();
 #endif
-#if TEST_LED_BUT
-  TLB_Config();
+#if TEST_BUTTON
+  Button_Config();
 #endif
 #if TEST_DS1307
   MD_Config();
 #endif
 #if TEST_ADC
-  TA_Config();
+  Sensor_Config();
 #endif
 #if TEST_MAX6369
-  TM_Config();
+  Max6369_Config();
 #endif
 #if TEST_SIM800L
   delay(10000);
-  TS_Setup();
+  Sim800L_Setup();
 #endif
 #if DEBUG_WEB
   WebSerial.println("Complete Setup");
@@ -40,21 +40,21 @@ void loop() {
 #if TEST_MODBUS
   MB_Slave_Run();
 #endif
-#if TEST_LED_BUT
-  // TLB_Blink();
-  TLB_Button();
+#if TEST_BUTTON
+  // Button_Blink();
+  Button_Button();
 #endif
 #if TEST_DS1307
   MD_Run();
 #endif
 #if TEST_ADC
-  TA_Run();
+  Sensor_Run();
 #endif
 #if TEST_MAX6369
-  TM_Run();
+  Max6369_Run();
 #endif
 #if TEST_SIM800L
-  TS_Read_SMS();
+  Sim800L_Read_SMS();
 #endif
 
   delay(1);

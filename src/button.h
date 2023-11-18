@@ -10,8 +10,8 @@
 #define BUT1 32
 #define BUT2 33
 
-void TLB_Config(void);
-void TLB_Blink(void);
-void TLB_Button(void);
+void Button_Config(void);
+void Button_Blink(void);
+void Button_Button(void);
 
 #endif

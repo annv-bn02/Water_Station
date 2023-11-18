@@ -8,7 +8,7 @@
 #define LED3 19
 
 
-void TM_Config(void);
-void TM_Run(void);
+void Max6369_Config(void);
+void Max6369_Run(void);
 
 #endif

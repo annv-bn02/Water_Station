@@ -16,7 +16,7 @@ static void MB_Slave_Debug_Data_Char(char *data, uint16_t length);
  */
 void MB_Slave_Run(void)
 {
-  sensor_data[0] = TA_Sensor_Data();
+  sensor_data[0] =Sensor_Sensor_Data();
   for(int i = 1; i < SENSOR_NUMBER; i++)
   {
     sensor_data[i] = 100 + 0.5;
@@ -34,10 +34,10 @@ void MB_Slave_Run(void)
   MB_Slave_Write_RTC(md_time);
   MB_Slave_Write_Button_State(button_data);
   MB_Slave_Write_Button_Change(1);
-  MB_Slave_Write_Status(TS_Status());
+  MB_Slave_Write_Status(Sim800L_Status());
   MB_Slave_Write_Calib_Parameters(a_param, b_param, c_param, d_param, e_param);
-  MB_Slave_Write_Get_Status(TS_Status(), module_sim_number);
-  MB_Slave_Write_Ping_Status(TS_Ping_Status(), phone_numner_sender);
+  MB_Slave_Write_Get_Status(Sim800L_Status(), module_sim_number);
+  MB_Slave_Write_Ping_Status(Sim800L_Ping_Status(), phone_numner_sender);
   mb.task();
   yield();
 }
@@ -238,7 +238,7 @@ void MB_Slave_Read_Ping_Response(uint8_t *data)
         break;
     }
   }
-  // TS_Send_SMS(String(phone_number), String(ping_response_data));
+  // Sim800L_Send_SMS(String(phone_number), String(ping_response_data));
 #if DEBUG_MODBUS
   Serial.print("Ping Resonse Phone Number: ");
   MB_Slave_Debug_Data(phone_number, 10);

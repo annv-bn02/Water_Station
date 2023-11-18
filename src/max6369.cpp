@@ -1,4 +1,4 @@
-#include "test_max6369.h"
+#include "max6369.h"
 uint32_t time_on, time_off, time2;
 uint8_t LEDState, cases = 0;
 
@@ -6,7 +6,7 @@ uint8_t LEDState, cases = 0;
  * @brief Configures the IN port watchdog IC
  * 
  */
-void TM_Config(void)
+void Max6369_Config(void)
 {
     pinMode(LED1  , OUTPUT);
 }
@@ -15,7 +15,7 @@ void TM_Config(void)
  * @brief Running change state of IN port watchdog IC
  * switch case for testing what time IC auto reset
  */
-void TM_Run(void)
+void Max6369_Run(void)
 {
      
      switch (cases){

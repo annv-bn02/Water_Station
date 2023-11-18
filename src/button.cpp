@@ -1,4 +1,4 @@
-#include "test_led_but.h"
+#include "button.h"
 uint8_t but1_old = 0, but1_new = 0, but2_old = 0, but2_new = 0, led1_state = LOW, led2_state = LOW, led3_state = LOW;
 uint32_t count = 0;
 
@@ -6,7 +6,7 @@ uint32_t count = 0;
  * @brief Config for LED and BUTTON
  * 
  */
-void TLB_Config(void)
+void Button_Config(void)
 {
     pinMode(LED1, OUTPUT);
     pinMode(LED2, OUTPUT);
@@ -22,7 +22,7 @@ void TLB_Config(void)
  * @brief Test button
  * 
  */
-void TLB_Button(void)
+void Button_Button(void)
 {
     count++;
     if(count == 1000)

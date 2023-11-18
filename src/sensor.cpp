@@ -1,4 +1,4 @@
-#include "test_adc.h"
+#include "sensor.h"
 uint32_t count_adc = 0, data = 0;
 float sensor_calib = 0;
 String sensor;
@@ -6,7 +6,7 @@ String sensor;
  * @brief Setup adc channel for reading sensor value
  * 
  */
-void TA_Config(void)
+void Sensor_Config(void)
 {
     LengthSensor_Setup();
 }
@@ -15,7 +15,7 @@ void TA_Config(void)
  * @brief Read sendsor value
  * 
  */
-void TA_Run(void)
+void Sensor_Run(void)
 {
     // count_adc++;
     // data += analogRead(SENSOR_PIN);
@@ -42,7 +42,7 @@ void TA_Run(void)
  * @brief Return value of the sensor
  * 
  */
-float TA_Sensor_Data(void)
+float Sensor_Sensor_Data(void)
 {
     return sensor_calib;
 }
