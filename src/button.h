@@ -1,5 +1,5 @@
-#ifndef _TESTLED_
-#define _TESTLED_
+#ifndef _BUTTON_
+#define _BUTTON_
 
 #include <Arduino.h>
 #include "all_header.h"

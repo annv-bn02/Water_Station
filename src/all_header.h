@@ -6,11 +6,11 @@
 #include <Arduino.h>
 #include "my_ds1307.h"
 #include "convert.h"
-#include "test_adc.h"
+#include "sensor.h"
 #include "my_modbus.h"
-#include "test_led_but.h"
-#include "test_max6369.h"
-#include "test_sim800l.h"
+#include "button.h"
+#include "max6369.h"
+#include "sim800l.h"
 #include "my_webdebug.h"
 #include "length_sensor.h"
 #endif

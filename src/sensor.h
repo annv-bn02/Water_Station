@@ -1,5 +1,5 @@
-#ifndef _TESTADC_
-#define _TESTADC_
+#ifndef _SENSOR_
+#define _SENSOR_
 
 #include <Arduino.h>
 #include "all_header.h"

@@ -204,16 +204,6 @@ void MB_Slave_Write_Get_Status(uint16_t data, String phone_number)
 }
 
 /**
- * @brief Write the status about the request config for Master read
- * Data start write from REQUEST_CONFIG_START_REGISTER
- * @param data 
- */
-void MB_Slave_Write_Request_Config(uint16_t data)
-{
-  // mb.Hreg(REQUEST_CONFIG_START_REGISTER, data);
-}
-
-/**
  * @brief Read ping response when Master write and send it from SIM800L
  * Data about phone number receive ping reponse and data of message;
  * @param data : data array cutting from Master write message buffer
@@ -476,7 +466,7 @@ void MB_Slave_Filter_Read_Message(uint8_t *data)
         WebSerial.println("AI read config parameters");
 #endif
       }
-      else if(Convert_From_Bytes_To_Uint16(data[2], data[1]) == 0x0036)
+      else if(Convert_From_Bytes_To_Uint16(data[2], data[1]) == GET_STATUS_START_REGISTER)
       {
         ai_read_get_status_flag = 1;
 #if DEBUG_WEB

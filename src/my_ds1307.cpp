@@ -39,7 +39,7 @@ void MD_Config(void)
         // January 21, 2014 at 3am you would call:
         rtc.adjust(DateTime(2023, 10, 9, 21, 40, 50));
     }
-    // rtc.adjust(DateTime(2023, 11, 14, 11, 4, 0));
+    // rtc.adjust(DateTime(2023, 11, 15, 16, 47, 0));
 #endif
     count_rtc = millis();
 }

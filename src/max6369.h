@@ -1,5 +1,5 @@
-#ifndef _TESTMAX6369_
-#define _TESTMAX6369_
+#ifndef _MAX6369_
+#define _MAX6369_
 
 #include "all_header.h"
 
