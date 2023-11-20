@@ -16,7 +16,8 @@ static void MB_Slave_Debug_Data_Char(char *data, uint16_t length);
  */
 void MB_Slave_Run(void)
 {
-  sensor_data[0] =Sensor_Sensor_Data();
+  // sensor_data[0] =Sensor_Sensor_Data();
+  sensor_data[0] = random(1, 100) + 0.5;
   for(int i = 1; i < SENSOR_NUMBER; i++)
   {
     sensor_data[i] = 100 + 0.5;
@@ -33,7 +34,7 @@ void MB_Slave_Run(void)
   MB_Slave_Write_Sensor(sensor_data);
   MB_Slave_Write_RTC(md_time);
   MB_Slave_Write_Button_State(button_data);
-  MB_Slave_Write_Button_Change(1);
+  MB_Slave_Write_Button_Change(button_state_change);
   MB_Slave_Write_Status(Sim800L_Status());
   MB_Slave_Write_Calib_Parameters(a_param, b_param, c_param, d_param, e_param);
   MB_Slave_Write_Get_Status(Sim800L_Status(), module_sim_number);
@@ -452,7 +453,14 @@ void MB_Slave_Filter_Read_Message(uint8_t *data)
       MB_Slave_Filter_Read_Multi_Register(data);
       break;
     case 0x03:
-      if(Convert_From_Bytes_To_Uint16(data[2], data[1]) == PING_STATUS_START_REGISTER)
+      if(Convert_From_Bytes_To_Uint16(data[2], data[1]) == BUTTON_CHANGE_START_REGISTER)
+      {
+        button_state_change = 0;
+#if DEBUG_WEB
+        WebSerial.println("AI read ping status");
+#endif
+      }
+      else if(Convert_From_Bytes_To_Uint16(data[2], data[1]) == PING_STATUS_START_REGISTER)
       {
         ai_read_ping_status_flag = 1;
 #if DEBUG_WEB

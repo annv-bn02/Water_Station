@@ -12,7 +12,6 @@
 
 extern float a_param, b_param, c_param, d_param, e_param;
 
-void LengthSensor_Test(void);
 void LengthSensor_KalmanFilter_Read(void);
 void LengthSensor_Average_Read(void);
 float LengthSensor_Return_Value(void);

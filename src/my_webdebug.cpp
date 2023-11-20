@@ -19,17 +19,20 @@ void WD_Handler(uint8_t *data, size_t len){
     Data += char(data[i]);
   }
   WebSerial.println(Data);
+  //If send string "10112002" in WebSerial ESP32 reset
   if(Data == "10112002")
   {
     WebSerial.println("Esp32 reset after 1 second");
     delay(1000);
     ESP.restart();
   }
-  if(Data == "sendsms")
+  //If send String "testsendsms" in WebSerial SIM800L send sms for testting
+  if(Data == "testsendsms")
   {
     WebSerial.println("Esp32 send sms");
     Sim800L_Send_SMS("0989691022", "Test send sms");
   }
+  //If send String "setuptime" in WebSerial setup time for DS1307
   if(Data.substring(0, 9) == "setuptime")
   {
     WebSerial.println("Esp32 setup DS1307");
