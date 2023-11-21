@@ -85,7 +85,8 @@ uint8_t MB_AI_Read_Get_Status(void);
 
 //USED in ModbusRTU.cpp in modbus-esp8266 library
 void MB_Slave_Filter_Read_Message(uint8_t *data);
-void MB_Slave_Filter_Read_Multi_Register(uint8_t *data);
+void MB_Slave_Filter_10(uint8_t *data);
+void MB_Slave_Filter_03(uint8_t *data);
 void MB_Slave_RS485_Write(void);
 void MB_Slave_RS485_Read(void);
 #endif

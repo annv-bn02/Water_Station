@@ -1,7 +1,7 @@
 #ifndef _ALL_HEADER_
 #define _ALL_HEADER_
 
-#define DEBUG_WEB 0
+#define DEBUG_WEB 1
 
 #include <Arduino.h>
 #include "my_ds1307.h"

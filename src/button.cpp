@@ -43,8 +43,9 @@ uint8_t Button_Read(button_s *button_struct, unsigned char button_read)
 	// else{
 	// 	button_struct->vruc_CountStt = 0;
 	// }
-    if(button_read != button_struct->vruc_OldStt)
+    if(button_read == 1 && button_struct->vruc_OldStt == 0)
     {
+        button_struct->vruc_OldStt = button_read;
         return 1;
     }
 	button_struct->vruc_OldStt = button_read;
@@ -71,27 +72,27 @@ void Button_Scan(void)
         WebSerial.printf("Button 2 push\n");
 #endif
     }
-    if(Button_Read(&button_3, digitalRead(BUTTON_3)))
-    {
-        button_state_change = 1;
-#if DEBUG_WEB
-        WebSerial.printf("Button 3 push\n");
-#endif
-    }
-    if(Button_Read(&button_4, digitalRead(BUTTON_4)))
-    {
-        button_state_change = 1;
-#if DEBUG_WEB
-        WebSerial.printf("Button 4 push\n");
-#endif
-    }
-    if(Button_Read(&button_5, digitalRead(BUTTON_5)))
-    {
-        button_state_change = 1;
-#if DEBUG_WEB
-        WebSerial.printf("Button 5 push\n");
-#endif
-    }
+//     if(Button_Read(&button_3, digitalRead(BUTTON_3)))
+//     {
+//         button_state_change = 1;
+// #if DEBUG_WEB
+//         WebSerial.printf("Button 3 push\n");
+// #endif
+//     }
+//     if(Button_Read(&button_4, digitalRead(BUTTON_4)))
+//     {
+//         button_state_change = 1;
+// #if DEBUG_WEB
+//         WebSerial.printf("Button 4 push\n");
+// #endif
+//     }
+//     if(Button_Read(&button_5, digitalRead(BUTTON_5)))
+//     {
+//         button_state_change = 1;
+// #if DEBUG_WEB
+//         WebSerial.printf("Button 5 push\n");
+// #endif
+//     }
 
 
 }

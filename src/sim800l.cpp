@@ -14,7 +14,7 @@ void Sim800L_Setup()
 {
   pinMode(22, OUTPUT);
   digitalWrite(22, HIGH);
-  message_receive = "Setup";
+  message_receive = "0";
   phone_number = "0";
 #if DEBUG_WEB
   WebSerial.println("Start setup SIM800L");
@@ -190,10 +190,6 @@ void Sim800L_Check_All_Flag(void)
 {
   if(MB_AI_Read_Ping_Status() == 1)
   {
-#if DEBUG_WEB
-    WebSerial.println("Receive SMS from: " + phone_number + " to module sim number: " + String(module_sim_number));
-    WebSerial.println("SMS: " + message_receive);
-#endif
     have_ping_status = 0;
   }
   if(MB_AI_Read_Get_Status() == 1)

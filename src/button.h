@@ -8,7 +8,7 @@
 #define LED3 19
 
 #define BUTTON_1 32
-#define BUTTON_2 32
+#define BUTTON_2 33
 #define BUTTON_3 32
 #define BUTTON_4 32
 #define BUTTON_5 32

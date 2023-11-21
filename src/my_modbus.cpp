@@ -240,13 +240,9 @@ void MB_Slave_Read_Ping_Response(uint8_t *data)
     }
   }
   // Sim800L_Send_SMS(String(phone_number), String(ping_response_data));
-#if DEBUG_MODBUS
-  Serial.print("Ping Resonse Phone Number: ");
-  MB_Slave_Debug_Data(phone_number, 10);
-  Serial.println();
-  Serial.print("Ping Resonse Data: ");
-  MB_Slave_Debug_Data(ping_response_data, 60);
-  Serial.println();
+#if DEBUG_WEB
+  WebSerial.printf("Ping Resonse Phone Number: %s\n", String(phone_number, 10));
+  WebSerial.printf("Ping Resonse Data: %s\n", String(ping_response_data, 60));
 #endif
 }
 
@@ -450,37 +446,10 @@ void MB_Slave_Filter_Read_Message(uint8_t *data)
   switch(function)
   {
     case 0x10:
-      MB_Slave_Filter_Read_Multi_Register(data);
+      MB_Slave_Filter_10(data);
       break;
     case 0x03:
-      if(Convert_From_Bytes_To_Uint16(data[2], data[1]) == BUTTON_CHANGE_START_REGISTER)
-      {
-        button_state_change = 0;
-#if DEBUG_WEB
-        WebSerial.println("AI read ping status");
-#endif
-      }
-      else if(Convert_From_Bytes_To_Uint16(data[2], data[1]) == PING_STATUS_START_REGISTER)
-      {
-        ai_read_ping_status_flag = 1;
-#if DEBUG_WEB
-        WebSerial.println("AI read ping status");
-#endif
-      }
-      else if(Convert_From_Bytes_To_Uint16(data[2], data[1]) == CALIB_PARAMETERS_START_REGISTER)
-      {
-        ai_read_config_para_flag = 1;
-#if DEBUG_WEB
-        WebSerial.println("AI read config parameters");
-#endif
-      }
-      else if(Convert_From_Bytes_To_Uint16(data[2], data[1]) == GET_STATUS_START_REGISTER)
-      {
-        ai_read_get_status_flag = 1;
-#if DEBUG_WEB
-        WebSerial.println("AI read get status");
-#endif
-      }
+      MB_Slave_Filter_03(data);
       break;
     default:
       break;
@@ -492,21 +461,89 @@ void MB_Slave_Filter_Read_Message(uint8_t *data)
  * 
  * @param data : data Master Write
  */
-void MB_Slave_Filter_Read_Multi_Register(uint8_t *data)
+void MB_Slave_Filter_10(uint8_t *data)
 {
   uint16_t start_address = Convert_From_Bytes_To_Uint16(data[2], data[1]);
   switch (start_address)
   {
   case PING_RESPONSE_START_REGISTER:
+#if DEBUG_WEB
+    WebSerial.println("AI write ping response");
+#endif
     MB_Slave_Read_Ping_Response(data);
     break;
   case RESPONSE_STATUS_START_REGISTER:
+#if DEBUG_WEB
+    WebSerial.println("AI write reponse status");
+#endif
     MB_Slave_Read_Response_Status(data);
     break;
   case CONFIG_PARAM_START_REGISTER:
+#if DEBUG_WEB
+    WebSerial.println("AI write config parameter");
+#endif
     MB_Slave_Read_Config_Param(data);
     break;
   default:
+    break;
+  }
+}
+
+/**
+ * @brief Function for directing processing incoming message Mater write
+ * 
+ * @param data : data Master Write
+ */
+void MB_Slave_Filter_03(uint8_t *data)
+{
+  uint16_t start_address = Convert_From_Bytes_To_Uint16(data[2], data[1]);
+  switch (start_address)
+  {
+    case SENSOR_DATA_START_REGISTER:
+#if DEBUG_WEB
+      WebSerial.println("AI read sensor data");
+#endif
+    break;
+    case BUTTON_DATA_START_REGISTER:
+#if DEBUG_WEB
+      WebSerial.println("AI read button data");
+#endif
+    break;
+    case RTC_DATA_START_REGISTER:
+#if DEBUG_WEB
+      WebSerial.println("AI read rtc data");
+#endif
+    break;
+    case BUTTON_CHANGE_START_REGISTER:
+      button_state_change = 0;
+#if DEBUG_WEB
+      WebSerial.println("AI read button change");
+#endif
+    break;
+    case STATUS_START_REGISTER:
+#if DEBUG_WEB
+      WebSerial.println("AI read status");
+#endif
+    break;
+    case PING_STATUS_START_REGISTER:
+      ai_read_ping_status_flag = 1;
+#if DEBUG_WEB
+      WebSerial.println("AI read ping status");
+#endif
+    break;
+    case CALIB_PARAMETERS_START_REGISTER:
+      ai_read_config_para_flag = 1;
+#if DEBUG_WEB
+        WebSerial.println("AI read config parameters");
+#endif
+    break;
+    case GET_STATUS_START_REGISTER:
+      ai_read_get_status_flag = 1;
+#if DEBUG_WEB
+      WebSerial.println("AI read get status");
+#endif
+    break;
+    default:
     break;
   }
 }
