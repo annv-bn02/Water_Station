@@ -139,7 +139,7 @@ void MD_Scan_I2C_Address(void)
 }
 
 /**
- * @brief Function for setting time DS1307 through WebSerial
+ * @brief Function for setting time DS1307 with WebSerial
  * format setup: setuptime:year/month/day/hour/minute/second
  * @example: setuptime:2023/11/15/13/45/14
  * @param time 
