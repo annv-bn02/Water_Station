@@ -7,7 +7,7 @@
 #include <stdint.h>
 
 #define SAMPLE        60
-#define ADC_PIN       4
+#define ADC_PIN       33
 
 
 extern float a_param, b_param, c_param, d_param, e_param;

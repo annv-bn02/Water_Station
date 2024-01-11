@@ -1,6 +1,6 @@
 #include "my_webdebug.h"
 
-const char* ssid = "artng1";
+const char* ssid = "artng2";
 const char* password = "20022002";
 const char* hostname = "water";
 AsyncWebServer server(80);

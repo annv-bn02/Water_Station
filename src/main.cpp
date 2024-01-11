@@ -1,9 +1,9 @@
 #include "all_header.h"
 #define TEST_MODBUS 1
 #define TEST_BUTTON 1
-#define TEST_DS1307 1
-#define TEST_ADC 0
-#define TEST_MAX6369 1
+#define TEST_DS1307 0
+#define TEST_ADC 1
+#define TEST_MAX6369 0
 #define TEST_SIM800L 1
 uint32_t count_test = 0;
 void setup() {

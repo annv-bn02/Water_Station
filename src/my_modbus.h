@@ -33,8 +33,7 @@
 #define DEFAULT_NUMBER_DATA 5
 #define DEFAULT_DATA_START 6
 
-#define RS485_TE 25
-#define RS485_RE 26 
+#define RS485_RTE 4 
 
 typedef enum{
     PR_PHONE_NUMBER_STATE   = 0,

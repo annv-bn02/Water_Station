@@ -7,11 +7,11 @@
 #define LED2 18
 #define LED3 19
 
-#define BUTTON_1 32
-#define BUTTON_2 33
-#define BUTTON_3 32
-#define BUTTON_4 32
-#define BUTTON_5 32
+#define BUTTON_1 36
+#define BUTTON_2 39
+#define BUTTON_3 34
+#define BUTTON_4 35
+#define BUTTON_5 25
 
 typedef struct{
 	unsigned char vruc_CurrentStt;

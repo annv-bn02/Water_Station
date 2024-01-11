@@ -4,7 +4,7 @@
 #define I2C_SDA 12
 #define I2C_SCL 14
 
-// #define SCAN_I2C 
+#define SCAN_I2C  
 
 RTC_DS1307 rtc;
 TwoWire I2C_DS1307 = TwoWire(0);
@@ -55,6 +55,10 @@ void MD_Run(void)
     {
 #ifdef SCAN_I2C
         MD_Scan_I2C_Address();
+        if (! rtc.begin(&I2C_DS1307)) {
+        WebSerial.println("Reconnect RTC");
+        WebSerial.flush();
+        }
 #endif
 #ifndef SCAN_I2C
         DateTime now = rtc.now();
@@ -82,7 +86,6 @@ void MD_Run(void)
         md_time[5] = now.minute();
         md_time[6] = now.second();
         md_time[7] = 0;
-#endif
 #if DEBUG_WEB
         ds1307 = "";
         ds1307 += String(now.year()) + "/";
@@ -98,6 +101,7 @@ void MD_Run(void)
         ds1307 += String(now.second());
         WebSerial.println(ds1307);
 #endif
+#endif
         count_rtc = millis();
     }
 }
@@ -108,33 +112,33 @@ void MD_Run(void)
  */
 void MD_Scan_I2C_Address(void)
 {
-    Serial.println("Scanning...");
+    WebSerial.println("Scanning...");
     nDevices = 0;
     for(address = 1; address < 127; address++ ) {
         I2C_DS1307.beginTransmission(address);
         error = I2C_DS1307.endTransmission();
         if (error == 0) {
-        Serial.print("I2C device found at address 0x");
+        WebSerial.print("I2C device found at address 0x");
         if (address<16) {
-            Serial.print("0");
+            WebSerial.print("0");
         }
-        Serial.println(address,HEX);
+        WebSerial.println(address,HEX);
         nDevices++;
         }
         else if (error==4) {
-        Serial.print("Unknow error at address 0x");
+        WebSerial.print("Unknow error at address 0x");
         if (address<16) {
-            Serial.print("0");
+            WebSerial.print("0");
         }
-        Serial.println(address,HEX);
+        WebSerial.println(address,HEX);
         }
         delay(10);    
     }
     if (nDevices == 0) {
-        Serial.println("No I2C devices found\n");
+        WebSerial.println("No I2C devices found\n");
     }
     else {
-        Serial.println("done\n");
+        WebSerial.println("done\n");
     }
 }
 

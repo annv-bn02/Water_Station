@@ -55,8 +55,7 @@ void MB_Slave_Setup(void)
   mb.addHreg(START_REGISTER_USED, 0, NUMBER_REGISTER_USED);
 
   //Config RS485 Control
-  pinMode(RS485_TE, OUTPUT);
-  pinMode(RS485_RE, OUTPUT);
+  pinMode(RS485_RTE, OUTPUT);
   MB_Slave_RS485_Read();
 
 }
@@ -608,8 +607,7 @@ uint8_t MB_AI_Read_Get_Status()
  */
 void MB_Slave_RS485_Write(void)
 {
-  digitalWrite(RS485_TE, HIGH);
-  digitalWrite(RS485_RE, HIGH);
+  digitalWrite(RS485_RTE, HIGH);
 }
 
 /**
@@ -618,8 +616,7 @@ void MB_Slave_RS485_Write(void)
  */
 void MB_Slave_RS485_Read(void)
 {
-  digitalWrite(RS485_TE, LOW);
-  digitalWrite(RS485_RE, LOW);
+  digitalWrite(RS485_RTE, LOW);
 }
 
 /**
