@@ -1,10 +1,12 @@
 #include "all_header.h"
-#define TEST_MODBUS 1
-#define TEST_BUTTON 1
-#define TEST_DS1307 0
-#define TEST_ADC 1
+//test module nao thi define 1, khong test define 0
+#define TEST_MODBUS 0
+#define TEST_BUTTON 0
+#define TEST_DS1307 1
+#define TEST_ADC 0
 #define TEST_MAX6369 0
-#define TEST_SIM800L 1
+#define TEST_SIM800L 0
+
 uint32_t count_test = 0;
 void setup() {
   Serial.begin(115200);
