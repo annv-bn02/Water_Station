@@ -1,11 +1,10 @@
 #include "all_header.h"
 //test module nao thi define 1, khong test define 0
-#define TEST_MODBUS 0
-#define TEST_BUTTON 0
+#define TEST_MODBUS 1
+#define TEST_BUTTON 1
 #define TEST_DS1307 1
-#define TEST_ADC 0
-#define TEST_MAX6369 0
-#define TEST_SIM800L 0
+#define TEST_ADC 1
+#define TEST_SIM800L 1
 
 uint32_t count_test = 0;
 void setup() {
@@ -25,9 +24,6 @@ void setup() {
 #endif
 #if TEST_ADC
   Sensor_Config();
-#endif
-#if TEST_MAX6369
-  Max6369_Config();
 #endif
 #if TEST_SIM800L
   delay(10000);

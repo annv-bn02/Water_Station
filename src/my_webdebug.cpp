@@ -49,10 +49,7 @@ void WD_Handler(uint8_t *data, size_t len){
 void WD_Setup(void) {
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
-  if (WiFi.waitForConnectResult() != WL_CONNECTED) {
-
-    return;
-  }
+  if (WiFi.waitForConnectResult(15000) != WL_CONNECTED)
   //setup host name for easy connect without ip address
   //form: http://hostname.local
   if (!MDNS.begin(hostname)) { 

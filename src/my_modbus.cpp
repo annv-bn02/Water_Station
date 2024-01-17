@@ -16,8 +16,8 @@ static void MB_Slave_Debug_Data_Char(char *data, uint16_t length);
  */
 void MB_Slave_Run(void)
 {
-  // sensor_data[0] =Sensor_Sensor_Data();
-  sensor_data[0] = random(1, 100) + 0.5;
+  sensor_data[0] =Sensor_Sensor_Data();
+  // sensor_data[0] = random(1, 100) + 0.5;
   for(int i = 1; i < SENSOR_NUMBER; i++)
   {
     sensor_data[i] = 100 + 0.5;
@@ -435,7 +435,7 @@ void MB_Slave_Read_Config_Param(uint8_t *data)
 }
 
 /**
- * @brief Function custom for reading message Master write
+ * @brief Function for filter function modbus of master
  * USED in ModbusRTU.cpp in modbus-esp8266 library
  * @param data : message data Master write
  */
@@ -457,7 +457,7 @@ void MB_Slave_Filter_Read_Message(uint8_t *data)
 
 /**
  * @brief Function for directing processing incoming message Mater write
- * 
+ * use for debug if master write data of slave
  * @param data : data Master Write
  */
 void MB_Slave_Filter_10(uint8_t *data)
@@ -490,7 +490,7 @@ void MB_Slave_Filter_10(uint8_t *data)
 
 /**
  * @brief Function for directing processing incoming message Mater write
- * 
+ * use for debug if master read data of slave
  * @param data : data Master Write
  */
 void MB_Slave_Filter_03(uint8_t *data)

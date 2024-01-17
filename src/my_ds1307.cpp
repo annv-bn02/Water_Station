@@ -4,7 +4,8 @@
 #define I2C_SDA 12
 #define I2C_SCL 14
 
-#define SCAN_I2C  
+/*Comment define if not scan i2c address,  uncomment if scan i2c address */
+// #define SCAN_I2C  
 
 RTC_DS1307 rtc;
 TwoWire I2C_DS1307 = TwoWire(0);
