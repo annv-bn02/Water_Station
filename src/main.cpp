@@ -1,5 +1,5 @@
 #include "all_header.h"
-#define TEST_MODBUS 0
+#define TEST_MODBUS 1
 #define TEST_BUTTON 1
 #define TEST_DS1307 1
 #define TEST_ADC 1
