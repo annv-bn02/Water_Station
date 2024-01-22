@@ -16,8 +16,8 @@ static void MB_Slave_Debug_Data_Char(char *data, uint16_t length);
  */
 void MB_Slave_Run(void)
 {
-  // sensor_data[0] =Sensor_Sensor_Data();
-  sensor_data[0] = random(1, 100) + 0.5;
+  sensor_data[0] =Sensor_Sensor_Data();
+  // sensor_data[0] = random(1, 100) + 0.5;
   for(int i = 1; i < SENSOR_NUMBER; i++)
   {
     sensor_data[i] = 100 + 0.5;
