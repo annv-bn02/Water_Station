@@ -10,11 +10,11 @@ uint8_t button_state_change;
 void Button_Config(void)
 {
     button_state_change = 0;
-    pinMode(BUTTON_1, INPUT_PULLDOWN);
-    pinMode(BUTTON_2, INPUT_PULLDOWN);
-    pinMode(BUTTON_3, INPUT_PULLDOWN);
-    pinMode(BUTTON_4, INPUT_PULLDOWN);
-    pinMode(BUTTON_5, INPUT_PULLDOWN);
+    // pinMode(BUTTON_1, INPUT_PULLDOWN);
+    // pinMode(BUTTON_2, INPUT_PULLDOWN);
+    // pinMode(BUTTON_3, INPUT_PULLDOWN);
+    // pinMode(BUTTON_4, INPUT_PULLDOWN);
+    // pinMode(BUTTON_5, INPUT_PULLDOWN);
 }
 
 /**
@@ -58,41 +58,41 @@ uint8_t Button_Read(button_s *button_struct, unsigned char button_read)
  */
 void Button_Scan(void)
 {
-    if(Button_Read(&button_1, digitalRead(BUTTON_1)))
-    {
-        button_state_change = 1;
-#if DEBUG_WEB
-        WebSerial.printf("Button 1 push\n");
-#endif
-    }
-    if(Button_Read(&button_2, digitalRead(BUTTON_2)))
-    {
-        button_state_change = 1;
-#if DEBUG_WEB
-        WebSerial.printf("Button 2 push\n");
-#endif
-    }
-    if(Button_Read(&button_3, digitalRead(BUTTON_3)))
-    {
-        button_state_change = 1;
-#if DEBUG_WEB
-        WebSerial.printf("Button 3 push\n");
-#endif
-    }
-    if(Button_Read(&button_4, digitalRead(BUTTON_4)))
-    {
-        button_state_change = 1;
-#if DEBUG_WEB
-        WebSerial.printf("Button 4 push\n");
-#endif
-    }
-    if(Button_Read(&button_5, digitalRead(BUTTON_5)))
-    {
-        button_state_change = 1;
-#if DEBUG_WEB
-        WebSerial.printf("Button 5 push\n");
-#endif
-    }
+//     if(Button_Read(&button_1, digitalRead(BUTTON_1)))
+//     {
+//         button_state_change = 1;
+// #if DEBUG_WEB
+//         WebSerial.printf("Button 1 push\n");
+// #endif
+//     }
+//     if(Button_Read(&button_2, digitalRead(BUTTON_2)))
+//     {
+//         button_state_change = 1;
+// #if DEBUG_WEB
+//         WebSerial.printf("Button 2 push\n");
+// #endif
+//     }
+//     if(Button_Read(&button_3, digitalRead(BUTTON_3)))
+//     {
+//         button_state_change = 1;
+// #if DEBUG_WEB
+//         WebSerial.printf("Button 3 push\n");
+// #endif
+//     }
+//     if(Button_Read(&button_4, digitalRead(BUTTON_4)))
+//     {
+//         button_state_change = 1;
+// #if DEBUG_WEB
+//         WebSerial.printf("Button 4 push\n");
+// #endif
+//     }
+//     if(Button_Read(&button_5, digitalRead(BUTTON_5)))
+//     {
+//         button_state_change = 1;
+// #if DEBUG_WEB
+//         WebSerial.printf("Button 5 push\n");
+// #endif
+//     }
 
 
 }

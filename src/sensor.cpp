@@ -12,7 +12,7 @@ float voltage = 0.0;
 float kalman_length = 0.0;
 float average_length = 0.0;
 float adc_average = 0;
-float a_param = -0.0106, b_param = 35.743, c_param = -0.0121, d_param = 38.872, e_param = 0.72;
+float a_param = -0.0115, b_param = 31.443, c_param = -0.0117, d_param = 31.862, e_param = 0.72;
 uint32_t count_read;
 SimpleKalmanFilter      pressureKalmanFilter(10,1,0.01);
 
@@ -46,12 +46,12 @@ void LengthSensor_Average_Read(void){
         else{
             adc_average = (float)adc_sum / SAMPLE;
             if(adc_average < 2049){
-                average_length = -0.0106*adc_average + 35.767;
+                average_length = a_param*adc_average + b_param;
             }
             else{
-                average_length = -0.0121*adc_average + 38.84;
+                average_length = c_param*adc_average + d_param;
             }
-    //       average_length = -0.0113*adc_average + 36.568;
+    //       average_length += e_param;
             adc_sum = 0;
             sample_count = 0;
             // Serial.print(average_length, 3);

@@ -3,6 +3,7 @@
 #define DEBUG_MODBUS 0
 
 ModbusRTU mb;
+uint32_t count_updatedata = 0;
 uint16_t arr[100];
 uint8_t button_data[100], rtc_data[10], ai_read_ping_status_flag = 0, ai_read_config_para_flag = 0, ai_read_get_status_flag = 0;
 float sensor_data[100];
@@ -16,16 +17,25 @@ static void MB_Slave_Debug_Data_Char(char *data, uint16_t length);
  */
 void MB_Slave_Run(void)
 {
-  sensor_data[0] =Sensor_Sensor_Data();
-  // sensor_data[0] = random(1, 100) + 0.5;
-  for(int i = 1; i < SENSOR_NUMBER; i++)
+  count_updatedata++;
+  if(count_updatedata > 1000)
   {
-    sensor_data[i] = 100 + 0.5;
+    count_updatedata = 0;
+    sensor_data[0] = Sensor_Sensor_Data();
+#if DEBUG_WEB
+  WebSerial.printf("Sensor data: %f\n", sensor_data[0]);
+#endif
+    // sensor_data[0] = random(1, 100) + 0.5;
+    for(int i = 1; i < SENSOR_NUMBER; i++)
+    {
+      sensor_data[i] = 100 + 0.5;
+    }
+    for(int i = 0; i < BUTTON_NUMBER; i++)
+    {
+      button_data[i] = 100;
+    }
   }
-  for(int i = 0; i < BUTTON_NUMBER; i++)
-  {
-    button_data[i] = 100;
-  }
+
   // rtc_data[7] = 0;
   // for(int i = 0; i < 7; i++)
   // {

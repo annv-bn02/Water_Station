@@ -10,10 +10,10 @@
             "includePath": [
                 "f:/Project/7.Thuy_Van/include",
                 "f:/Project/7.Thuy_Van/src",
+                "f:/Project/7.Thuy_Van/.pio/libdeps/esp32doit-devkit-v1/SimpleKalmanFilter/src",
                 "C:/Users/nvan0/.platformio/packages/framework-arduinoespressif32/libraries/WebServer/src",
                 "f:/Project/7.Thuy_Van/.pio/libdeps/esp32doit-devkit-v1/WebSerial/src",
                 "C:/Users/nvan0/.platformio/packages/framework-arduinoespressif32/libraries/ESPmDNS/src",
-                "f:/Project/7.Thuy_Van/.pio/libdeps/esp32doit-devkit-v1/SimpleKalmanFilter/src",
                 "C:/Users/nvan0/.platformio/packages/framework-arduinoespressif32/libraries/Update/src",
                 "f:/Project/7.Thuy_Van/.pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer-esphome/src",
                 "f:/Project/7.Thuy_Van/.pio/libdeps/esp32doit-devkit-v1/AsyncElegantOTA/src",
@@ -248,10 +248,10 @@
                 "path": [
                     "f:/Project/7.Thuy_Van/include",
                     "f:/Project/7.Thuy_Van/src",
+                    "f:/Project/7.Thuy_Van/.pio/libdeps/esp32doit-devkit-v1/SimpleKalmanFilter/src",
                     "C:/Users/nvan0/.platformio/packages/framework-arduinoespressif32/libraries/WebServer/src",
                     "f:/Project/7.Thuy_Van/.pio/libdeps/esp32doit-devkit-v1/WebSerial/src",
                     "C:/Users/nvan0/.platformio/packages/framework-arduinoespressif32/libraries/ESPmDNS/src",
-                    "f:/Project/7.Thuy_Van/.pio/libdeps/esp32doit-devkit-v1/SimpleKalmanFilter/src",
                     "C:/Users/nvan0/.platformio/packages/framework-arduinoespressif32/libraries/Update/src",
                     "f:/Project/7.Thuy_Van/.pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer-esphome/src",
                     "f:/Project/7.Thuy_Van/.pio/libdeps/esp32doit-devkit-v1/AsyncElegantOTA/src",

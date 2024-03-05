@@ -11,4 +11,5 @@
 #include "button.h"
 #include "sim800l.h"
 #include "my_webdebug.h"
+#include "wind.h"
 #endif

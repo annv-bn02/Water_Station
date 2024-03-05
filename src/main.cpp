@@ -29,6 +29,9 @@ void setup() {
   delay(10000);
   Sim800L_Setup();
 #endif
+
+  Wind_Config();
+
 #if DEBUG_WEB
   WebSerial.println("Complete Setup");
 #endif
@@ -54,7 +57,7 @@ void loop() {
 #if TEST_SIM800L
   Sim800L_Read_SMS();
 #endif
-
+  Wind_Run();
   delay(1);
 }
 
