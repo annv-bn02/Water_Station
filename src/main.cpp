@@ -30,7 +30,7 @@ void setup() {
   Sim800L_Setup();
 #endif
 
-  Wind_Config();
+  Weather_Config();
 
 #if DEBUG_WEB
   WebSerial.println("Complete Setup");
@@ -57,7 +57,7 @@ void loop() {
 #if TEST_SIM800L
   Sim800L_Read_SMS();
 #endif
-  Wind_Run();
+  Weather_Update();
   delay(1);
 }
 

@@ -21,12 +21,16 @@ void MB_Slave_Run(void)
   if(count_updatedata > 1000)
   {
     count_updatedata = 0;
-    sensor_data[0] = Sensor_Sensor_Data();
+    sensor_data[0] = rain_perhour;
+    sensor_data[1] = wind_v;
+    sensor_data[2] = wind_d;
 #if DEBUG_WEB
-  WebSerial.printf("Sensor data: %f\n", sensor_data[0]);
+  WebSerial.printf("Rain counter: %f mm/h\n", sensor_data[0]);
+  WebSerial.printf("Wind v: %f m/s\n", sensor_data[1]);
+  WebSerial.printf("Wind d: %f\n", sensor_data[2]);
 #endif
     // sensor_data[0] = random(1, 100) + 0.5;
-    for(int i = 1; i < SENSOR_NUMBER; i++)
+    for(int i = 3; i < SENSOR_NUMBER; i++)
     {
       sensor_data[i] = 100 + 0.5;
     }
