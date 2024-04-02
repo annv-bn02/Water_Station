@@ -103,7 +103,7 @@ void Weather_Rain(void)
     { 
         rain_counter++;
     }
-    if(time_counter_rain + 36000000 < millis())
+    if(time_counter_rain + 3600000 < millis())
     {
         rain_perhour = rain_param * rain_counter;
         rain_counter = 0; //luong mua mm/h 
